@@ -1,0 +1,11 @@
+Build started at 2025-02-24T09:24:55.946206
+Main binary: /home/marcos/.local/share/pipx/venvs/meson/bin/python
+Build Options: 
+Python system: Linux
+The Meson build system
+Version: 1.7.0
+Source dir: /home/marcos/Projects/nes-emulator
+Build dir: /home/marcos/Projects/nes-emulator/assets
+Build type: native build
+
+ERROR: No statements in code.
