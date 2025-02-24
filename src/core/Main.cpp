@@ -1,12 +1,6 @@
-#include "include/raylib.h"
+#include "src/core/Emulator.h"
 
 int main() {
-    InitWindow(800, 600, "NES Emulator");
-    while (!WindowShouldClose()) {
-        BeginDrawing();
-        ClearBackground(RED);
-        EndDrawing();
-    }
-    CloseWindow();
-    return 0;
+    Emulator e;
+    e.run();
 }

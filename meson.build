@@ -1,4 +1,9 @@
-project('nes-emulator', 'cpp')
+project('nes-emulator', 'cpp',
+    version: '0.1.0',
+    license: 'MIT',
+    license_files : 'LICENSE',
+    default_options : ['warning_level=3']
+)
 
 cxx = meson.get_compiler('cpp')
 
@@ -30,6 +35,7 @@ inc_dir = include_directories(
 
 sources = files(
   'src/core/Main.cpp',
+  'src/core/Emulator.cpp',
 )
 
 executable('emulator',
