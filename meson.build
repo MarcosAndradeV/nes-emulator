@@ -36,6 +36,15 @@ inc_dir = include_directories(
 sources = files(
   'src/core/Main.cpp',
   'src/core/Emulator.cpp',
+  'src/ppu/Ppu.cpp',
+  'src/ppu/Renderer.cpp',
+  'src/input/Input.cpp',
+  'src/apu/Apu.cpp',
+  'src/cpu/Cpu.cpp',
+  'src/cpu/Memory.cpp',
+  'src/cpu/Instructions.cpp',
+  'src/rom/RomLoader.cpp',
+  'src/rom/Mapper.cpp',
 )
 
 executable('emulator',
@@ -43,3 +52,8 @@ executable('emulator',
   include_directories: inc_dir,
   dependencies: dependencies
 )
+
+# test_sources = files(
+#   './tests/TestPpu.cpp',
+#   './tests/TestCpu.cpp',
+# )
