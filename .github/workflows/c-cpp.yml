@@ -10,17 +10,11 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
-
     steps:
-    - name: Start
-      uses: actions/checkout@v4
-    - name: Meson Build
-      uses: BSFishy/meson-build@v1.0.3
-      # You may pin to the exact commit or the version.
-      # uses: BSFishy/meson-build@656b2a360964b249ac82905a52018921e01d875b
-    - name: build
-      run: meson setup build/
-    - name: compile
-      run: meson compile -C build/
-    - name: test
-      run: meson test -C build/
+    - uses: actions/checkout@v2
+    - uses: actions/setup-python@v1
+    - uses: BSFishy/meson-build@v1.0.3
+      with:
+        action: test
+
+          
