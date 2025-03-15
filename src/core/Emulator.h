@@ -1,5 +1,5 @@
-#ifndef EMULATOR_H_
-#define EMULATOR_H_
+#ifndef EMULATOR_H
+#define EMULATOR_H
 
 /// Responsavel por inicialização, deinicialização e event loop.
 class Emulator {
@@ -9,4 +9,4 @@ public:
     void run();
 };
 
-#endif // EMULATOR_H_
+#endif // EMULATOR_H
