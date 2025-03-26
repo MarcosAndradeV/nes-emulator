@@ -34,7 +34,7 @@ inc_dir = include_directories(
 )
 
 sources = files(
-  'src/core/Main.cpp',
+  'src/Main.cpp',
   'src/core/Emulator.cpp',
   'src/ppu/Ppu.cpp',
   'src/ppu/Renderer.cpp',
