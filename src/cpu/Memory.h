@@ -1,5 +1,5 @@
-#ifndef CPU_H
-#define CPU_H
+#ifndef MEMORY_H
+#define MEMORY_H
 
 #include <cstdint>
 #include <vector>
@@ -18,4 +18,4 @@ class Memory
         vector<uint8_t> ram; // Simula os 2 KB de RAM do NES
 };
 
-#endif // CPU_H
+#endif // MEMORY_H

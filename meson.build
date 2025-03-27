@@ -36,7 +36,7 @@ inc_dir = include_directories(
 sources = files(
   'src/Main.cpp',
   'src/core/Emulator.cpp',
-  'src/cpu/Cpu.cpp',
+  'src/cpu/Memory.cpp',
 )
 
 executable('emulator',
