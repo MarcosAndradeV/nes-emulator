@@ -54,7 +54,7 @@ executable('emulator',
 test_dir = 'tests'
 
 # Teste de memória
-test_memory = executable('TestMemory', ['src/cpu/Cpu.cpp', 'tests/TestMemory.cpp'])
+test_memory = executable('TestMemory', ['src/cpu/Memory.cpp', 'tests/TestMemory.cpp'])
 
 # Executar o teste automaticamente
 test('memory_test', test_memory)
