@@ -1,7 +1,7 @@
 #ifndef MEMORY_H
 #define MEMORY_H
 
-#include <cstdint>
+#include <cstdint>//define vários tipos de inteiros que garantem tamanhos específicos
 #include <vector>
 
 using namespace std;

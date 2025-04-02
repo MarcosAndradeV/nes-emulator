@@ -1,4 +1,4 @@
-#include "src/core/Emulator.h"
+#include "Emulator.h"
 
 int main() {
     Emulator e;
