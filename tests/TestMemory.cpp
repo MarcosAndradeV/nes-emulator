@@ -1,5 +1,5 @@
 #include <iostream>
-#include "src/cpu/Memory.h"
+#include "src/Mappers/Memory.h"
 
 using namespace std;
 
