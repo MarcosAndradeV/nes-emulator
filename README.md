@@ -11,4 +11,4 @@ meson compile -C build
 ```
 
 
-<img width="100%" src="https://repobeats.axiom.co/api/embed/6bfca2f20f39738048b6e70ca205efde46352c3d.svg" />
+![Alt](https://repobeats.axiom.co/api/embed/9f45594c0897ea733af5ded1531eebf68fb0658a.svg "Repobeats analytics image")
