@@ -50,8 +50,8 @@ int main(int argc, char **argv) {
     Nob_Cmd cmd = {0};
     Nob_String_View sv = {0};
     Nob_File_Paths nfp = {0};
-    if(!make_o_files_from_dir("src/core", &cmd, &sv, &nfp)) return 1;
-    if(!make_o_files_from_dir("src/cpu", &cmd, &sv, &nfp)) return 1;
+    if(!make_o_files_from_dir("src/Source_files", &cmd, &sv, &nfp)) return 1;
+    if(!make_o_files_from_dir("src/Mappers", &cmd, &sv, &nfp)) return 1;
     if(!make_o_files_from_dir("src", &cmd, &sv, &nfp)) return 1;
 
     if(!build(&cmd, &sv, &nfp)) return 1;

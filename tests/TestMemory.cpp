@@ -1,5 +1,4 @@
-#include <iostream>
-#include "src/Mappers/Memory.h"
+#include "../include/global.h"
 
 using namespace std;
 
