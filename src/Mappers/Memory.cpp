@@ -1,4 +1,4 @@
-#include "Memory.h"
+#include "../../include/global.h"
 
 // Tamanho da RAM do NES (2 KB = 2048 bytes)
 #define RAM_SIZE 2048

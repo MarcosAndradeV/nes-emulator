@@ -1,4 +1,4 @@
-#include "Emulator.h"
+#include "../include/global.h"
 
 int main() {
     Emulator e;

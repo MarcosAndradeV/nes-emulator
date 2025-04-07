@@ -35,7 +35,7 @@ inc_dir = include_directories(
 
 sources = files(
   'src/Main.cpp',
-  'src/Source files/Emulator.cpp',
+  'src/Source_files/Emulator.cpp',
   'src/Mappers/Memory.cpp',
 )
 
@@ -54,7 +54,9 @@ executable('emulator',
 test_dir = 'tests'
 
 # Teste de memória
-test_memory = executable('TestMemory', ['src/Mappers/Memory.cpp', 'tests/TestMemory.cpp'])
+test_memory = executable('TestMemory', ['src/Mappers/Memory.cpp', 'tests/TestMemory.cpp'],   
+  include_directories: inc_dir,
+  dependencies: dependencies)
 
 # Executar o teste automaticamente
 test('memory_test', test_memory)

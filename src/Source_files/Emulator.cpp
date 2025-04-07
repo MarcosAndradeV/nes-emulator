@@ -1,6 +1,5 @@
-#include "Emulator.h"
-#include "Config.h"
-#include "raylib.h"
+#include "../../include/global.h"
+
 
 /// Inicializa todas as variaveis necessárias
 Emulator::Emulator() {

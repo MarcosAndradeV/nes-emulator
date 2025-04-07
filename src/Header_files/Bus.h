@@ -1,11 +1,7 @@
 #ifndef BUS_H
 #define BUS_H
 
-#include <cstdint>//define vários tipos de inteiros que garantem tamanhos específicos
-#include "CPU.h"
-#include "Memory.h"
-#include "PPU.h"
-#include "APU.h"
+#include "../../include/global.h"
 
 class Bus
 {
