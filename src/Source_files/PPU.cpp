@@ -1,6 +1,6 @@
 #include "../Header_files/PPU.h"
 
-PPU::PPU() : 
+PPU::PPU() :
     scanline(0),
     dot(0),
     frameComplete(false),
@@ -11,7 +11,7 @@ PPU::PPU() :
     oam.fill(0);
     paletteRAM.fill(0);
     frameBuffer.fill(0);
-    
+
     // Initialize registers
     registers.control = 0;
     registers.mask = 0;
@@ -23,14 +23,14 @@ PPU::PPU() :
 }
 
 PPU::~PPU() {
-    // Cleanup if needed
+
 }
 
 void PPU::tick() {
     // PPU operates at 3 times the CPU speed
     // Each scanline is 341 dots long
     // There are 262 scanlines per frame
-    
+
     if (scanline >= -1 && scanline < 240) {
         if (scanline == -1 && dot == 1) {
             registers.status &= ~0x80;  // Clear VBlank flag
@@ -40,7 +40,7 @@ void PPU::tick() {
         if ((dot >= 1 && dot < 257) || (dot >= 321 && dot < 337)) {
             renderBackground();
         }
-        
+
         if (dot >= 257 && dot < 321) {
             evaluateSprites();
         }
@@ -49,7 +49,7 @@ void PPU::tick() {
     if (scanline == 241 && dot == 1) {
         registers.status |= 0x80;  // Set VBlank flag
         frameComplete = true;
-        
+
         // Generate NMI if enabled
         if (registers.control & 0x80) {
             nmiOccurred = true;
