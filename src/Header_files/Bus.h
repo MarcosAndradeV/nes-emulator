@@ -8,12 +8,12 @@ class Bus
     public:
         Bus();
         ~Bus();
-    
+
     public: //Dispositivos no barramento
-        CPU cpu;
+        CPU6502 cpu;
         Memory memory;
         PPU ppu; //unidade de processamento de imagens
-        APU apu; //unidade de processamento de áudio
+        APU2A03 apu; //unidade de processamento de áudio
 
     public: //Bus Read & Write
         void cpuWrite(uint16_t addr, uint8_t data);

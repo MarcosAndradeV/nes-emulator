@@ -1,4 +1,4 @@
-#include "APU.h"
+#include "../../include/global.h"
 
 APU2A03::APU2A03()
 {
@@ -49,6 +49,8 @@ void APU2A03::cpuWrite(uint16_t addr, uint8_t data){
             case 0x400F:
                 break;
         }
+    }
+}
 
 uint8_t APU2A03::cpuRead(uint16_t addr)
 {
@@ -118,5 +120,3 @@ double APU2A03::GetOutputSample()
 {
     return pulse01_sample;
 }
-
-
