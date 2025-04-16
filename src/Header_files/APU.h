@@ -1,7 +1,6 @@
 #pragma once
 
-#include <cstdint>
-#include <functional>
+#include "../../include/global.h"
 
 class APU2A03{
     public:
