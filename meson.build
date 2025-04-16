@@ -34,14 +34,9 @@ inc_dir = include_directories(
 )
 
 sources = files(
-    'src/Main.cpp',
-    'src/Source_files/Emulator.cpp',
-    'src/Source_files/Bus.cpp',
-    'src/Source_files/CPU.cpp',
-    'src/Source_files/PPU.cpp',
-    'src/Source_files/APU.cpp',
-    'src/Source_files/Cartridge.cpp',
-    'src/Mappers/Mapper.cpp',
+  'src/Main.cpp',
+  'src/Source_files/Emulator.cpp',
+  'src/Mappers/Memory.cpp',
 )
 
 executable('emulator',
@@ -52,7 +47,16 @@ executable('emulator',
 
 # test_sources = files(
 #   './tests/TestPpu.cpp',
-#   './tests/TestCpu.cpp'
+#   './tests/TestCpu.cpp',
+#   './tests/TestMemory.cpp',
 # )
 
 test_dir = 'tests'
+
+# Teste de memória
+test_memory = executable('TestMemory', ['src/Mappers/Memory.cpp', 'tests/TestMemory.cpp'],   
+  include_directories: inc_dir,
+  dependencies: dependencies)
+
+# Executar o teste automaticamente
+test('memory_test', test_memory)

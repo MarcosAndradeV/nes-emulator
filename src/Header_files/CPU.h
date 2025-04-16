@@ -1,14 +1,7 @@
 #pragma once
 
-#include "../../include/global.h"
-
-class Bus;
-class CPU6502
-{
-    public:
-        CPU6502();
-        ~CPU6502();
-
+#include <cstdint>
+class CPU6502{
     public:
         uint8_t A = 0;
         uint8_t X = 0;
@@ -17,15 +10,14 @@ class CPU6502
         uint8_t SP = 0xFD;
         uint8_t Status = 0x34;//registrador de status(flags)
 
+        uint8_t memory[0x100000]={0};//Memória simulada de 64kb
+
         void reset();//reinicia
         void clock();//executa um ciclo
         void interrupt();//trata uma interrupção IRQ
         void nmi();//trata uma interrupção NMI
         void executeInstruction(uint8_t opcode);//executa uma Instrução
 
-        bool complete();//verifica se a instrução foi completada
-
-        void ConnectBus(Bus *n) { bus = n; }//conecta o barramento ao CPU
 
         enum FLAGS{
             C = (1 << 0),//Carry
@@ -38,21 +30,14 @@ class CPU6502
             N = (1 << 7),//Negative
         };
 
-    private:
+    void setFlag(FLAGS flag, bool value){
+        if(value)
+            Status |= flag;//ativa o bit correspondente
+        else
+            Status &= ~flag;//limpa o bit correspondente
+    }
 
-        //Memória e Bus
-        Bus *bus = nullptr;
-        uint8_t read(uint16_t a);
-        void write(uint16_t a, uint8_t d);
-
-        void setFlag(FLAGS flag, bool value){
-            if(value)
-                Status |= flag;//ativa o bit correspondente
-            else
-                Status &= ~flag;//limpa o bit correspondente
-        }
-
-        bool getFlag(FLAGS flag){
-            return (Status & flag)>0;
-        }
+    bool getFlag(FLAGS flag){
+        return (Status & flag)>0;
+    }
 }; //Registradores e Flags

@@ -1,8 +1,7 @@
 #pragma once
 
-#include "../../include/global.h"
-
-class Cartridge;
+#include <cstdint>
+#include <array>
 
 class PPU {
 public:
@@ -17,13 +16,6 @@ public:
     void tick();
     void renderScanline();
     void renderFrame();
-    void clock();
-    void reset();
-    void ConnectCartridge(const std::shared_ptr<Cartridge>& cartridge);
-
-    // CPU Interface
-    uint8_t cpuRead(uint16_t addr, bool bReadOnly = false);
-    void cpuWrite(uint16_t addr, uint8_t data);
 
     // Memory Access
     uint8_t readVRAM(uint16_t addr);
@@ -33,12 +25,6 @@ public:
 
     // Frame Buffer Access
     const uint32_t* getFrameBuffer() const { return frameBuffer.data(); }
-
-    // DMA Access
-    uint8_t pOAM[256];  // Object Attribute Memory
-
-    // NMI
-    bool nmi = false;
 
 private:
     // PPU Memory
@@ -64,9 +50,6 @@ private:
     bool frameComplete;
     bool nmiOccurred;
     bool nmiOutput;
-
-    // Cartridge
-    std::shared_ptr<Cartridge> cart;
 
     // Helper Functions
     void evaluateSprites();

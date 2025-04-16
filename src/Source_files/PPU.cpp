@@ -1,4 +1,4 @@
-#include "../../include/global.h"
+#include "../Header_files/PPU.h"
 
 PPU::PPU() :
     scanline(0),
@@ -157,40 +157,4 @@ void PPU::renderSprites() {
 uint32_t PPU::getColorFromPalette(uint8_t palette, uint8_t pixel) {
     // TODO: Implement color palette lookup
     return 0;
-}
-
-void PPU::cpuWrite(uint16_t addr, uint8_t data) //
-{
-    writeRegister(addr, data);
-}
-
-uint8_t PPU::cpuRead(uint16_t addr, bool readOnly) {
-    return readRegister(addr);
-}
-
-void PPU::ConnectCartridge(const std::shared_ptr<Cartridge>& cartridge) //conecta o cartucho
-{
-    this->cart = cartridge;
-}
-
-void PPU::reset()
-{
-    scanline = 0;
-    dot = 0;
-    frameComplete = false;
-    nmiOccurred = false;
-    nmiOutput = false;
-    
-    // Reset registers
-    registers.control = 0;
-    registers.mask = 0;
-    registers.status = 0;
-    registers.oamAddr = 0;
-    registers.scroll = 0;
-    registers.addr = 0;
-    registers.data = 0;
-}
-
-void PPU::clock() {
-    tick();
 }
