@@ -1,14 +1,12 @@
 #pragma once
 
-#include "../../include/global.h"
-
-enum MIRROR //tipo de espelhamento
+enum MIRROR
 {
 	HARDWARE,
 	HORIZONTAL,
 	VERTICAL,
 	ONESCREEN_LO,
-	ONESCREEN_HI,
+	ONESCREEN_HI
 };
 
 class Mapper
