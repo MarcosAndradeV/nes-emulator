@@ -42,6 +42,12 @@ sources = files(
     'src/Source_files/APU.cpp',
     'src/Source_files/Cartridge.cpp',
     'src/Mappers/Mapper.cpp',
+    'src/Mappers/Mapper000.cpp',
+    'src/Mappers/Mapper001.cpp',
+    'src/Mappers/Mapper002.cpp',
+    'src/Mappers/Mapper003.cpp',
+    'src/Mappers/Mapper004.cpp',
+    'src/Mappers/Mapper066.cpp',
 )
 
 executable('emulator',

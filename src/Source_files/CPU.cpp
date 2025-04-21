@@ -1,5 +1,21 @@
 #include "../../include/global.h"
 
+CPU6502::CPU6502()
+{
+    // Inicializa os registradores
+    A = 0;
+    X = 0;
+    Y = 0;
+    PC = 0;
+    SP = 0xFD;
+    Status = 0x34;
+    bus = nullptr;
+}
+
+CPU6502::~CPU6502()
+{
+    // Limpa recursos se necessário
+}
 
 void CPU6502::clock(){
     uint8_t opcode = bus->cpuRead(PC++, false);
