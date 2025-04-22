@@ -147,7 +147,40 @@ void PPU::evaluateSprites() {
 }
 
 void PPU::renderBackground() {
-    // TODO: Implement background rendering
+    if (!(registers.mask & 0x08)) return;
+
+    // Get the current tile coordinates
+    uint16_t tileX = dot / 8;
+    uint16_t tileY = scanline / 8;
+
+    // Calculate the nametable address
+    uint16_t nametableAddr = 0x2000 | (registers.control & 0x03) << 10;
+    nametableAddr += tileY * 32 + tileX;
+
+    // Get the tile index from the nametable
+    uint8_t tileIndex = readVRAM(nametableAddr);
+
+    // Get the pattern table address
+    uint16_t patternTableAddr = ((registers.control & 0x10) ? 0x1000 : 0) + tileIndex * 16;
+
+    // Get the attribute table address
+    uint16_t attributeAddr = 0x23C0 | (nametableAddr & 0x0C00) | ((nametableAddr >> 4) & 0x38) | ((nametableAddr >> 2) & 0x07);
+    uint8_t attribute = readVRAM(attributeAddr);
+
+    // Calculate fine Y position
+    uint8_t fineY = scanline % 8;
+
+    // Get the pattern data for this row
+    uint8_t patternLow = readVRAM(patternTableAddr + fineY);
+    uint8_t patternHigh = readVRAM(patternTableAddr + fineY + 8);
+
+    // Get the palette index
+    uint8_t paletteIndex = (patternHigh & 0x01) << 1 | (patternLow & 0x01);
+    uint8_t palette = (attribute >> ((tileX % 4) / 2 * 2 + (tileY % 4) / 2 * 4)) & 0x03;
+
+    // Calculate final color and write to framebuffer
+    uint32_t color = getColorFromPalette(palette, paletteIndex);
+    frameBuffer[scanline * 256 + dot] = color;
 }
 
 void PPU::renderSprites() {
@@ -180,7 +213,7 @@ void PPU::reset()
     frameComplete = false;
     nmiOccurred = false;
     nmiOutput = false;
-    
+
     // Reset registers
     registers.control = 0;
     registers.mask = 0;
