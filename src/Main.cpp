@@ -6,7 +6,7 @@ int main() {
     
     // Tenta carregar um jogo
     // Substitua "jogo.nes" pelo caminho do seu arquivo ROM
-    if (!e.loadGame("../Jogos/")) {
+    if (!e.loadGame("Jogos/Super_Mario_Bros_2 .nes")) {
         cout << "Não foi possível carregar o jogo. Verifique se o arquivo existe." << endl;
         return 1;
     }
