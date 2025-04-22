@@ -9,7 +9,7 @@ class Mapper; // Declaração antecipada da classe Mapper
 class Cartridge {
 public:
     // Construtor e destrutor
-    Cartridge(const std::string& filename); // Carrega ROM do arquivo
+    Cartridge(const string& filename); // Carrega ROM do arquivo
     ~Cartridge();
 
     // Interface com a CPU - permite ler/escrever na memória do cartucho

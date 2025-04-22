@@ -30,7 +30,7 @@ Cartridge::Cartridge(const std::string& sFileName)
 		// If a "trainer" exists we just need to read past
 		// it before we get to the good stuff
 		if (header.mapper1 & 0x04)
-			ifs.seekg(512, std::ios_base::cur);
+			ifs.seekg(512, ios_base::cur);
 
 		// Determine Mapper ID
 		nMapperID = ((header.mapper2 >> 4) << 4) | (header.mapper1 >> 4);
@@ -79,12 +79,12 @@ Cartridge::Cartridge(const std::string& sFileName)
 		// Load appropriate mapper
 		switch (nMapperID)
 		{
-		case   0: pMapper = std::make_shared<Mapper_000>(nPRGBanks, nCHRBanks); break;
-		case   1: pMapper = std::make_shared<Mapper_001>(nPRGBanks, nCHRBanks); break;
-		case   2: pMapper = std::make_shared<Mapper_002>(nPRGBanks, nCHRBanks); break;
-		case   3: pMapper = std::make_shared<Mapper_003>(nPRGBanks, nCHRBanks); break;
-		case   4: pMapper = std::make_shared<Mapper_004>(nPRGBanks, nCHRBanks); break;
-		case  66: pMapper = std::make_shared<Mapper_066>(nPRGBanks, nCHRBanks); break;
+		case   0: pMapper = make_shared<Mapper_000>(nPRGBanks, nCHRBanks); break;
+		case   1: pMapper = make_shared<Mapper_001>(nPRGBanks, nCHRBanks); break;
+		case   2: pMapper = make_shared<Mapper_002>(nPRGBanks, nCHRBanks); break;
+		case   3: pMapper = make_shared<Mapper_003>(nPRGBanks, nCHRBanks); break;
+		case   4: pMapper = make_shared<Mapper_004>(nPRGBanks, nCHRBanks); break;
+		case  66: pMapper = make_shared<Mapper_066>(nPRGBanks, nCHRBanks); break;
 		}
 
 		bImageValid = true;
