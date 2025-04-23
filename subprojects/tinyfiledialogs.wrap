@@ -1,0 +1,4 @@
+[wrap-git]
+directory = tinyfiledialogs
+url = https://github.com/native-toolkit/tinyfiledialogs.git
+revision = master 
