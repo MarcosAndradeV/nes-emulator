@@ -8,6 +8,9 @@ if [ `uname -s` = "Linux" ]; then
  echo Linux 64
  gcc -m64 -fPIC -shared -o tinyfiledialogsLinux64.so ../tinyfiledialogs.c
  gcc -m64 -o hello ../hello.c ./tinyfiledialogsLinux64.so
+ echo Linux 64 static
+ gcc -m64 -fPIC -c -o tinyfiledialogsLinux64.o ../tinyfiledialogs.c
+ ar rcs tinyfiledialogsLinux64.a tinyfiledialogsLinux64.o
 elif [ `uname -s` = "OpenBSD" ]; then
  echo OpenBSD
  clang -m32 -fPIC -shared -o tinyfiledialogsOpenBSDx86.so ../tinyfiledialogs.c
