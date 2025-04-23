@@ -37,7 +37,14 @@ bool build(Nob_Cmd *cmd, Nob_String_View *sv, Nob_File_Paths* nfp) {
             nob_cmd_append(cmd, input);
         }
     }
-    nob_cmd_append(cmd, "-lm", "-ldl", "-l:libraylib.a", "-Lthird_party/Raylib/raylib-5.0_linux_amd64/lib");
+    nob_cmd_append(cmd,
+        "-Lthird_party/Raylib/raylib-5.0_linux_amd64/lib",
+        "-Lthird_party/tinyfiledialogs/dll_cs_lua_R_fortran_pascal",
+        "-lm",
+        "-ldl",
+        "-l:libraylib.a",
+        "-l:tinyfiledialogsLinux64.a",
+    );
     if (!nob_cmd_run_sync_and_reset(cmd)) return false;
     nfp->count = 0;
     return true;
