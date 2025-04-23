@@ -25,8 +25,8 @@
 #include "./src/Mappers/Mapper002.h"
 #include "./src/Mappers/Mapper003.h"
 #include "./src/Mappers/Mapper004.h"
+#include "./src/Mappers/Mapper005.h"
+#include "./src/Mappers/Mapper007.h"
 #include "./src/Mappers/Mapper066.h"
 #include "tinyfiledialogs.h"
 #include "./src/Header_files/UI.h"
-
-
