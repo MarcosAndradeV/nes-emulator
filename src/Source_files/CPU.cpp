@@ -1,4 +1,6 @@
-#include "../../include/global.h"
+#include "src/Header_files/CPU.h"
+#include "src/Header_files/Bus.h"
+#include <iostream>
 
 CPU6502::CPU6502()
 {
@@ -33,7 +35,7 @@ void CPU6502::executeInstruction(uint8_t opcode){
             break;
 
         default:
-            cerr << "Instrução desconhecida: 0x" << hex << (int)opcode << "\n";
+            std::cerr << "Instrução desconhecida: 0x" << std::hex << (int)opcode << "\n";
             break;
     }
 }
@@ -66,31 +68,32 @@ void CPU6502::nmi(){
 
     PC = bus->cpuRead(0xFFFA, false) | (bus->cpuRead(0xFFFB, false) << 8);//vetor de NMI
 }
+/*
+// void CPU::execute() {
+//   if (do_nmi) {
+//     NMI();
+//     return;
+//   }//Executa uma interrupção não mascarável.
 
-void CPU::execute() {
-  if (do_nmi) {
-    NMI();
-    return;
-  }//Executa uma interrupção não mascarável.
+//   if (do_irq && !P.I) {
+//     IRQ();
+//     return;
+//   }//Se (do_irq)está ativo e a flag (P.I)está desativada, executa uma interrupção normal.
 
-  if (do_irq && !P.I) {
-    IRQ();
-    return;
-  }//Se (do_irq)está ativo e a flag (P.I)está desativada, executa uma interrupção normal.
+//   uint8_t op = mem_read(PC++);
+//   //Lê o próximo byte de memória apontado por PC e incrementa o PC para apontar para a próxima instrução.
 
-  uint8_t op = mem_read(PC++);
-  //Lê o próximo byte de memória apontado por PC e incrementa o PC para apontar para a próxima instrução.
+//   uint16_t addr;
+//   switch (op) {//Define um padrão para expandir casos de switch.
+// #define X(opcode, op, mode) \
+//   case opcode:              \
+//     addr = mode();          \
+//     op(addr);               \
+//     break;
 
-  uint16_t addr;
-  switch (op) {//Define um padrão para expandir casos de switch.
-#define X(opcode, op, mode) \ 
-  case opcode:              \
-    addr = mode();          \
-    op(addr);               \
-    break;
+// #include "instructions.h"
 
-#include "instructions.h"
-
-#undef X
-  }
-}
+// #undef X
+//   }
+// }
+*/
