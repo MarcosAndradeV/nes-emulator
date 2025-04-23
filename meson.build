@@ -20,7 +20,7 @@ if host_machine.system() == 'windows'
       dirs: [
         join_paths(
           current_source_dir,
-          'third_party/tinyfiledialogs/dll_cs_lua_R_fortran_pascal/',
+          'third_party/tinyfiledialogs_lib/dll_cs_lua_R_fortran_pascal/',
         ),
       ],
     ),
@@ -46,7 +46,7 @@ elif host_machine.system() == 'linux'
       dirs: [
         join_paths(
           current_source_dir,
-          'third_party/tinyfiledialogs/dll_cs_lua_R_fortran_pascal/',
+          'third_party/tinyfiledialogs_lib/dll_cs_lua_R_fortran_pascal/',
         ),
       ],
     ),

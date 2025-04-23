@@ -33,7 +33,7 @@ bool make_o_files_from_dir(const char *dir, Nob_Procs *procs, Nob_Cmd *cmd,
 bool build(Nob_Cmd *cmd, Nob_String_View *sv, Nob_File_Paths *nfp) {
   if (!nob_read_entire_dir("build/nob", nfp))
     return false;
-  const char *output = "build/emulator";
+  const char *output = "build/nob/emulator";
   nob_cmd_append(cmd, "g++", "-o", output);
   nob_da_foreach(const char *, it, nfp) {
     sv->count = 0;
@@ -44,7 +44,7 @@ bool build(Nob_Cmd *cmd, Nob_String_View *sv, Nob_File_Paths *nfp) {
     }
   }
   nob_cmd_append(cmd, "-Lthird_party/Raylib/raylib-5.0_linux_amd64/lib",
-                 "-Lthird_party/tinyfiledialogs/dll_cs_lua_R_fortran_pascal",
+                 "-Lthird_party/tinyfiledialogs_lib/dll_cs_lua_R_fortran_pascal",
                  "-lm", "-ldl", "-l:libraylib.a",
                  "-l:tinyfiledialogsLinux64.a", );
   if (!nob_cmd_run_sync_and_reset(cmd))
