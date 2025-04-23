@@ -1,24 +1,13 @@
 #include "../include/global.h"
 
-using namespace std;
 int main() {
-    // Inicializa a interface
-    UI ui;
-    ui.init();
-    
-    // Mostra tela de boas-vindas e obtém o arquivo ROM
-    string filePath = ui.showWelcomeScreen();
-    
-    if (filePath.empty()) {
-        return 0; // Usuário fechou a janela
-    }
-    
     // Cria uma instância do emulador
     Emulator e;
     
-    // Tenta carregar o jogo
-    if (!e.loadGame(filePath)) {
-        std::cout << "Não foi possível carregar o jogo. Verifique se o arquivo existe.\n";
+    // Tenta carregar um jogo
+    // Substitua "jogo.nes" pelo caminho do seu arquivo ROM
+    if (!e.loadGame("Jogos/Super_Mario_Bros_2 .nes")) {
+        cout << "Não foi possível carregar o jogo. Verifique se o arquivo existe." << endl;
         return 1;
     }
     

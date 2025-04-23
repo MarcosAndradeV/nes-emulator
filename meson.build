@@ -2,17 +2,13 @@ project('nes-emulator', 'cpp',
     version: '0.1.0',
     license: 'MIT',
     license_files : 'LICENSE',
-    default_options : ['warning_level=3', 'cpp_std=c++17']
+    default_options : ['warning_level=3']
 )
 
 cxx = meson.get_compiler('cpp')
 
 dependencies = []
 current_source_dir = meson.current_source_dir()
-
-# Add tiny file dialogs as a subproject
-tinyfd_proj = subproject('tinyfiledialogs')
-tinyfd_dep = tinyfd_proj.get_variable('tinyfd_dep')
 
 if host_machine.system() == 'windows'
   dependencies += [
@@ -33,14 +29,12 @@ elif host_machine.system() == 'linux'
   ]
 endif
 
-# Add tiny file dialogs to dependencies
-dependencies += tinyfd_dep
-
-inc_dir = include_directories('include', 'subprojects/tinyfiledialogs')
+inc_dir = include_directories(
+  'include',
+)
 
 sources = files(
     'src/Main.cpp',
-    'src/Source_files/UI.cpp',
     'src/Source_files/Emulator.cpp',
     'src/Source_files/Bus.cpp',
     'src/Source_files/CPU.cpp',
@@ -57,11 +51,9 @@ sources = files(
 )
 
 executable('emulator',
-    sources: sources,
-    include_directories: inc_dir,
-    dependencies: dependencies,
-    install: true,
-    install_dir: 'build'
+  sources: sources,
+  include_directories: inc_dir,
+  dependencies: dependencies
 )
 
 # test_sources = files(
