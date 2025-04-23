@@ -1,7 +1,8 @@
 #pragma once
 
-#include "../../include/global.h"
-
+#include <cstdint>
+#include <memory>
+#include <array>
 class Cartridge;
 
 class PPU {

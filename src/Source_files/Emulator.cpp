@@ -1,11 +1,16 @@
-#include "../../include/global.h"
-#include "raylib.h"
-#include "src/Header_files/Bus.h"
-#include <cstring>
+
 
 // Variáveis globais para o emulador
+#include "src/Header_files/Bus.h"
+#include "src/Header_files/Emulator.h"
+#include "src/Header_files/Cartridge.h"
+#include "include/Config.h"
+#include <cstring>
+#include <iostream>
+#include <string>
+#include <memory>
 Bus bus;  // Barramento do sistema NES
-string romPath = "";  // Caminho para o arquivo ROM
+std::string romPath = "";  // Caminho para o arquivo ROM
 
 /// Inicializa todas as variaveis necessárias
 Emulator::Emulator() {
@@ -18,13 +23,13 @@ Emulator::~Emulator() {
 }
 
 /// Carrega um jogo NES
-bool Emulator::loadGame(const string& path) {
+bool Emulator::loadGame(const std::string& path) {
     // Cria um novo cartucho com o arquivo ROM
-    auto cart = make_shared<Cartridge>(path);
+    auto cart = std::make_shared<Cartridge>(path);
 
     // Verifica se o cartucho foi carregado corretamente
     if (!cart->ImageValid()) {
-        cout << "Erro ao carregar o jogo: " << path << endl;
+        std::cout << "Erro ao carregar o jogo: " << path << std::endl;
         return false;
     }
 
@@ -37,7 +42,7 @@ bool Emulator::loadGame(const string& path) {
     // Salva o caminho do jogo
     romPath = path;
 
-    cout << "Jogo carregado com sucesso: " << path << endl;
+    std::cout << "Jogo carregado com sucesso: " << path << std::endl;
     return true;
 }
 

@@ -1,7 +1,6 @@
 #pragma once
 
-#include "../../include/global.h"
-
+#include "src/Mappers/Mapper.h"
 class Mapper_066 :	public Mapper
 {
 	public:

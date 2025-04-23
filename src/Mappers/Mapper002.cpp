@@ -1,4 +1,4 @@
-#include "../../include/global.h"
+#include "src/Mappers/Mapper002.h"
 
 
 Mapper_002::Mapper_002(uint8_t prgBanks, uint8_t chrBanks) : Mapper(prgBanks, chrBanks)
@@ -12,6 +12,7 @@ Mapper_002::~Mapper_002()
 
 bool Mapper_002::cpuMapRead(uint16_t addr, uint32_t &mapped_addr, uint8_t &data)
 {
+    (void)data;
 	if (addr >= 0x8000 && addr <= 0xBFFF)
 	{
 		mapped_addr = nPRGBankSelectLo * 0x4000 + (addr & 0x3FFF);
@@ -23,14 +24,15 @@ bool Mapper_002::cpuMapRead(uint16_t addr, uint32_t &mapped_addr, uint8_t &data)
 		mapped_addr = nPRGBankSelectHi * 0x4000 + (addr & 0x3FFF);
 		return true;
 	}
-	
+
 	return false;
 }
 
 bool Mapper_002::cpuMapWrite(uint16_t addr, uint32_t &mapped_addr, uint8_t data)
 {
+    (void)mapped_addr;
 	if (addr >= 0x8000 && addr <= 0xFFFF)
-	{		
+	{
 		nPRGBankSelectLo = data & 0x0F;
 	}
 

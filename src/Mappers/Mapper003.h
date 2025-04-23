@@ -1,7 +1,6 @@
 #pragma once
 
-#include "../../include/global.h"
-
+#include "src/Mappers/Mapper.h"
 using namespace std;
 
 class Mapper_003 : public Mapper
@@ -18,6 +17,4 @@ public:
 
 private:
 	uint8_t nCHRBankSelect = 0x00;
-
-
 };

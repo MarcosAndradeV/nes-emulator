@@ -1,4 +1,4 @@
-#include "../../include/global.h"
+#include "src/Mappers/Mapper004.h"
 
 Mapper_004::Mapper_004(uint8_t prgBanks, uint8_t chrBanks) : Mapper(prgBanks, chrBanks)
 {
@@ -228,8 +228,8 @@ bool Mapper_004::ppuMapRead(uint16_t addr, uint32_t &mapped_addr)
 
 bool Mapper_004::ppuMapWrite(uint16_t addr, uint32_t &mapped_addr)
 {
-	
-	
+    (void)addr;
+    (void)mapped_addr;
 	return false;
 }
 
@@ -269,7 +269,7 @@ void Mapper_004::irqClear()
 void Mapper_004::scanline()
 {
 	if (nIRQCounter == 0)
-	{		
+	{
 		nIRQCounter = nIRQReload;
 	}
 	else
@@ -279,7 +279,7 @@ void Mapper_004::scanline()
 	{
 		bIRQActive = true;
 	}
-	
+
 }
 
 MIRROR Mapper_004::mirror()

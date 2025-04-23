@@ -1,4 +1,4 @@
-#include "../../include/global.h"
+#include "src/Mappers/Mapper007.h"
 
 Mapper_007::Mapper_007(uint8_t prgBanks, uint8_t chrBanks) : Mapper(prgBanks, chrBanks)
 {
@@ -17,6 +17,7 @@ void Mapper_007::reset()
 
 bool Mapper_007::cpuMapRead(uint16_t addr, uint32_t &mapped_addr, uint8_t &data)
 {
+    (void)data;
     if (addr >= 0x8000 && addr <= 0xFFFF)
     {
         // Map the entire 32KB PRG ROM bank
@@ -29,6 +30,7 @@ bool Mapper_007::cpuMapRead(uint16_t addr, uint32_t &mapped_addr, uint8_t &data)
 
 bool Mapper_007::cpuMapWrite(uint16_t addr, uint32_t &mapped_addr, uint8_t data)
 {
+    (void)mapped_addr;
     if (addr >= 0x8000 && addr <= 0xFFFF)
     {
         // Bank select and mirroring control
@@ -69,4 +71,4 @@ bool Mapper_007::ppuMapWrite(uint16_t addr, uint32_t &mapped_addr)
 MIRROR Mapper_007::mirror()
 {
     return mirrorMode;
-} 
+}

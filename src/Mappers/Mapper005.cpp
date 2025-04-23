@@ -1,4 +1,4 @@
-#include "../../include/global.h"
+#include "src/Mappers/Mapper005.h"
 
 Mapper_005::Mapper_005(uint8_t prgBanks, uint8_t chrBanks) : Mapper(prgBanks, chrBanks)
 {
@@ -13,25 +13,25 @@ void Mapper_005::reset()
 {
     prgMode = 0;
     for (int i = 0; i < 4; i++) prgBank[i] = 0;
-    
+
     chrMode = 0;
     for (int i = 0; i < 12; i++) chrBank[i] = 0;
-    
+
     ntMode = 0;
     for (int i = 0; i < 4; i++)
         for (int j = 0; j < 0x400; j++)
             ntRam[i][j] = 0;
-    
+
     irqEnable = false;
     irqPending = false;
     irqCounter = 0;
     irqLatch = 0;
-    
+
     for (int i = 0; i < 4; i++) exSound[i] = 0;
-    
+
     prgRam.fill(0);
     chrRam.fill(0);
-    
+
     mul1 = 0;
     mul2 = 0;
     mulResult = 0;
@@ -57,7 +57,7 @@ bool Mapper_005::cpuMapRead(uint16_t addr, uint32_t &mapped_addr, uint8_t &data)
         }
         return false;
     }
-    
+
     if (addr >= 0x6000 && addr <= 0x7FFF)
     {
         // PRG RAM
@@ -65,7 +65,7 @@ bool Mapper_005::cpuMapRead(uint16_t addr, uint32_t &mapped_addr, uint8_t &data)
         data = prgRam[mapped_addr];
         return true;
     }
-    
+
     if (addr >= 0x8000 && addr <= 0xFFFF)
     {
         // PRG ROM
@@ -87,7 +87,7 @@ bool Mapper_005::cpuMapRead(uint16_t addr, uint32_t &mapped_addr, uint8_t &data)
         }
         return true;
     }
-    
+
     return false;
 }
 
@@ -99,35 +99,35 @@ bool Mapper_005::cpuMapWrite(uint16_t addr, uint32_t &mapped_addr, uint8_t data)
         exSound[addr - 0x5000] = data;
         return false;
     }
-    
+
     if (addr >= 0x5100 && addr <= 0x5103)
     {
         // PRG Mode
         prgMode = data & 0x03;
         return false;
     }
-    
+
     if (addr >= 0x5113 && addr <= 0x5117)
     {
         // PRG Banking
         prgBank[addr - 0x5113] = data;
         return false;
     }
-    
+
     if (addr >= 0x5120 && addr <= 0x512B)
     {
         // CHR Banking
         chrBank[addr - 0x5120] = data;
         return false;
     }
-    
+
     if (addr >= 0x5130 && addr <= 0x5133)
     {
         // CHR Mode
         chrMode = data & 0x03;
         return false;
     }
-    
+
     if (addr >= 0x5200 && addr <= 0x5206)
     {
         // IRQ and Multiplication
@@ -156,7 +156,7 @@ bool Mapper_005::cpuMapWrite(uint16_t addr, uint32_t &mapped_addr, uint8_t data)
         }
         return false;
     }
-    
+
     if (addr >= 0x6000 && addr <= 0x7FFF)
     {
         // PRG RAM
@@ -164,7 +164,7 @@ bool Mapper_005::cpuMapWrite(uint16_t addr, uint32_t &mapped_addr, uint8_t data)
         prgRam[mapped_addr] = data;
         return true;
     }
-    
+
     return false;
 }
 
@@ -198,7 +198,7 @@ bool Mapper_005::ppuMapRead(uint16_t addr, uint32_t &mapped_addr)
             return true;
         }
     }
-    
+
     if (addr >= 0x2000 && addr <= 0x3EFF)
     {
         // Nametable
@@ -206,7 +206,7 @@ bool Mapper_005::ppuMapRead(uint16_t addr, uint32_t &mapped_addr)
         mapped_addr = ntRam[nt][addr & 0x03FF];
         return true;
     }
-    
+
     return false;
 }
 
@@ -223,7 +223,7 @@ bool Mapper_005::ppuMapWrite(uint16_t addr, uint32_t &mapped_addr)
         }
         return false;
     }
-    
+
     if (addr >= 0x2000 && addr <= 0x3EFF)
     {
         // Nametable
@@ -231,7 +231,7 @@ bool Mapper_005::ppuMapWrite(uint16_t addr, uint32_t &mapped_addr)
         mapped_addr = ntRam[nt][addr & 0x03FF];
         return true;
     }
-    
+
     return false;
 }
 
@@ -271,4 +271,4 @@ void Mapper_005::scanline()
             irqCounter--;
         }
     }
-} 
+}

@@ -1,4 +1,4 @@
-#include "../../include/global.h"
+#include "src/Header_files/APU.h"
 
 APU2A03::APU2A03()
 {
@@ -54,6 +54,7 @@ void APU2A03::cpuWrite(uint16_t addr, uint8_t data){
 
 uint8_t APU2A03::cpuRead(uint16_t addr)
 {
+    (void)addr;
     return 0x00;
 }
 

@@ -1,4 +1,4 @@
-#include "../../include/global.h"
+#include "src/Mappers/Mapper000.h"
 
 Mapper_000::Mapper_000(uint8_t prgBanks, uint8_t chrBanks) : Mapper(prgBanks, chrBanks)
 {
@@ -16,13 +16,14 @@ void Mapper_000::reset()
 
 bool Mapper_000::cpuMapRead(uint16_t addr, uint32_t &mapped_addr, uint8_t &data)
 {
+    (void)data;
 	// if PRGROM is 16KB
 	//     CPU Address Bus          PRG ROM
 	//     0x8000 -> 0xBFFF: Map    0x0000 -> 0x3FFF
 	//     0xC000 -> 0xFFFF: Mirror 0x0000 -> 0x3FFF
 	// if PRGROM is 32KB
 	//     CPU Address Bus          PRG ROM
-	//     0x8000 -> 0xFFFF: Map    0x0000 -> 0x7FFF	
+	//     0x8000 -> 0xFFFF: Map    0x0000 -> 0x7FFF
 	if (addr >= 0x8000 && addr <= 0xFFFF)
 	{
 		mapped_addr = addr & (nPRGBanks > 1 ? 0x7FFF : 0x3FFF);
@@ -34,6 +35,7 @@ bool Mapper_000::cpuMapRead(uint16_t addr, uint32_t &mapped_addr, uint8_t &data)
 
 bool Mapper_000::cpuMapWrite(uint16_t addr, uint32_t &mapped_addr, uint8_t data)
 {
+    (void)data;
 	if (addr >= 0x8000 && addr <= 0xFFFF)
 	{
 		mapped_addr = addr & (nPRGBanks > 1 ? 0x7FFF : 0x3FFF);

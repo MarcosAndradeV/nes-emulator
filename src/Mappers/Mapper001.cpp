@@ -1,4 +1,4 @@
-#include "../../include/global.h"
+#include "src/Mappers/Mapper001.h"
 
 Mapper_001::Mapper_001(uint8_t prgBanks, uint8_t chrBanks) : Mapper(prgBanks, chrBanks)
 {
@@ -49,7 +49,7 @@ bool Mapper_001::cpuMapRead(uint16_t addr, uint32_t &mapped_addr, uint8_t &data)
 		}
 	}
 
-	
+
 
 	return false;
 }
@@ -108,7 +108,7 @@ bool Mapper_001::cpuMapWrite(uint16_t addr, uint32_t &mapped_addr, uint8_t data)
 				else if (nTargetRegister == 1) // 0xA000 - 0xBFFF
 				{
 					// Set CHR Bank Lo
-					if (nControlRegister & 0b10000) 
+					if (nControlRegister & 0b10000)
 					{
 						// 4K CHR Bank at PPU 0x0000
 						nCHRBankSelect4Lo = nLoadRegister & 0x1F;
@@ -201,7 +201,7 @@ bool Mapper_001::ppuMapRead(uint16_t addr, uint32_t &mapped_addr)
 				return true;
 			}
 		}
-	}	
+	}
 
 	return false;
 }
@@ -227,7 +227,7 @@ void Mapper_001::reset()
 	nControlRegister = 0x1C;
 	nLoadRegister = 0x00;
 	nLoadRegisterCount = 0x00;
-	
+
 	nCHRBankSelect4Lo = 0;
 	nCHRBankSelect4Hi = 0;
 	nCHRBankSelect8 = 0;
@@ -239,6 +239,6 @@ void Mapper_001::reset()
 
 MIRROR Mapper_001::mirror()
 {
-	
+
 	return mirrormode;
 }

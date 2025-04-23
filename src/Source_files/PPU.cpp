@@ -1,4 +1,4 @@
-#include "../../include/global.h"
+#include "src/Header_files/PPU.h"
 
 PPU::PPU() :
     scanline(0),
@@ -188,6 +188,8 @@ void PPU::renderSprites() {
 }
 
 uint32_t PPU::getColorFromPalette(uint8_t palette, uint8_t pixel) {
+    (void)palette;
+    (void)pixel;
     // TODO: Implement color palette lookup
     return 0;
 }
@@ -198,6 +200,7 @@ void PPU::cpuWrite(uint16_t addr, uint8_t data) //
 }
 
 uint8_t PPU::cpuRead(uint16_t addr, bool readOnly) {
+    (void)readOnly;
     return readRegister(addr);
 }
 

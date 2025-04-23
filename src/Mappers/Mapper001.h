@@ -1,8 +1,7 @@
 #pragma once
 
-#include "../../include/global.h"
-
-using namespace std;
+#include "src/Mappers/Mapper.h"
+#include <vector>
 
 class Mapper_001 : public Mapper
 {
@@ -15,7 +14,7 @@ class Mapper_001 : public Mapper
 		bool ppuMapRead(uint16_t addr, uint32_t &mapped_addr) override;
 		bool ppuMapWrite(uint16_t addr, uint32_t &mapped_addr) override;
 		void reset() override;
-		MIRROR mirror();
+		MIRROR mirror() override;
 
 	private:
 		uint8_t nCHRBankSelect4Lo = 0x00;
@@ -32,5 +31,5 @@ class Mapper_001 : public Mapper
 
 		MIRROR mirrormode = MIRROR::HORIZONTAL;
 
-		vector<uint8_t> vRAMStatic;
+		std::vector<uint8_t> vRAMStatic;
 };

@@ -1,5 +1,7 @@
-#include "../../include/global.h"
 
+#include <memory>
+#include "src/Header_files/Bus.h"
+#include "src/Header_files/Cartridge.h"
 
 Bus::Bus()
 {
@@ -11,46 +13,46 @@ Bus::~Bus()
 }
 
 void Bus::cpuWrite(uint16_t addr, uint8_t data)
-{	
+{
 	if (cart->cpuWrite(addr, data))
 	{
-		
+
 	}
 	else if (addr >= 0x0000 && addr <= 0x1FFF)
 	{
-		
+
 		cpuRam[addr & 0x07FF] = data;
 
 	}
 	else if (addr >= 0x2000 && addr <= 0x3FFF)
 	{
 		ppu.cpuWrite(addr & 0x0007, data);
-	}	
+	}
 	else if ((addr >= 0x4000 && addr <= 0x4013) || addr == 0x4015 || addr == 0x4017) //  NES APU
 	{
 		apu.cpuWrite(addr, data);
 	}
 	else if (addr == 0x4014)
 	{
-	
+
 		dma_page = data;
 		dma_addr = 0x00;
-		dma_transfer = true;						
+		dma_transfer = true;
 	}
 	else if (addr >= 0x4016 && addr <= 0x4017)
 	{
 		// "Lock In" controller state at this time
 		controller_state[addr & 0x0001] = controller[addr & 0x0001];
 	}
-	
+
 }
 
 uint8_t Bus::cpuRead(uint16_t addr, bool bReadOnly)
 {
-	uint8_t data = 0x00;	
+	uint8_t data = 0x00;
 	if (cart->cpuRead(addr, data))
 	{
-		
+
 	}
 	else if (addr >= 0x0000 && addr <= 0x1FFF)
 	{
@@ -107,13 +109,13 @@ bool Bus::clock()
 	{
 		if (dma_transfer)
 		{
-			
+
 			if (dma_dummy)
 			{
-    
+
 				if (nSystemClockCounter % 2 == 1)
 				{
-					
+
 					dma_dummy = false;
 				}
 			}
@@ -127,11 +129,11 @@ bool Bus::clock()
 				}
 				else
 				{
-					
+
 					ppu.pOAM[dma_addr] = dma_data;
-					
+
 					dma_addr++;
-				
+
 					if (dma_addr == 0x00)
 					{
 						dma_transfer = false;
@@ -142,9 +144,9 @@ bool Bus::clock()
 		}
 		else
 		{
-		
+
 			cpu.clock();
-		}		
+		}
 	}
 
 	//Sincronização com o sistema Áudio
@@ -158,19 +160,19 @@ bool Bus::clock()
 		bAudioSampleReady = true;
 	}
 
-	
+
 	if (ppu.nmi)
 	{
 		ppu.nmi = false;
 		cpu.nmi();
 	}
 
-	
-	
+
+
 	if (cart->GetMapper()->irqState())
 	{
 		cart->GetMapper()->irqClear();
-		cpu.interrupt();		
+		cpu.interrupt();
 	}
 
 	nSystemClockCounter++;

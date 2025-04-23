@@ -1,21 +1,23 @@
 #ifndef BUS_H
 #define BUS_H
 
-#include "../../include/global.h"
+#include "src/Header_files/APU.h"
+#include "src/Header_files/CPU.h"
+#include "src/Header_files/PPU.h"
+#include <memory>
 
-using namespace std;
 class Bus
 {
     public:
         Bus();
         ~Bus();
 
-    public: 
+    public:
     //Dispositivos no barramento
         CPU6502 cpu;
-        PPU ppu; 
-        APU2A03 apu; 
-        shared_ptr<Cartridge> cart;  
+        PPU ppu;
+        APU2A03 apu;
+        std::shared_ptr<Cartridge> cart;
 
         uint8_t cpuRam[2048]; //Memória do CPU
 
@@ -53,7 +55,7 @@ class Bus
         bool dma_transfer = false;
 
     public: // System Interface
-        void insertCartridge(const shared_ptr<Cartridge>& cartridge);// Connects a cartridge object to the internal buses
+        void insertCartridge(const std::shared_ptr<Cartridge>& cartridge);// Connects a cartridge object to the internal buses
         void reset();// Resets the system
         bool clock();// Clocks the system - a single whole system tick
 };

@@ -1,7 +1,7 @@
 #pragma once
 
-#include "../../include/global.h"
-
+#include <cstdint>
+#include <functional>
 class APU2A03{
     public:
         APU2A03();
@@ -77,4 +77,3 @@ class APU2A03{
         double pulse01_sample = 0.0;
         double dGlobalTime = 0.0;
 };
-

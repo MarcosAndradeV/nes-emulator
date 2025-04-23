@@ -1,7 +1,5 @@
-#include "../../include/global.h"
-
-using namespace std;
-
+#include "src/Header_files/UI.h"
+#include "tinyfiledialogs.h"
 UI::UI()
 {
     // Inicializa a janela
@@ -22,7 +20,7 @@ void UI::init() {
     SetExitKey(KEY_NULL); // Desabilita ESC para sair
 }
 
-string UI::showWelcomeScreen()
+std::string UI::showWelcomeScreen()
 {
     while (!WindowShouldClose()) {
         BeginDrawing();
@@ -42,8 +40,8 @@ string UI::showWelcomeScreen()
 
         // Verifica clique nos botões
         if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
-            Rectangle selectButton = { screenWidth/2 - 140, screenHeight/2 + 40, 280, 35 };
-            Rectangle exitButton = { screenWidth/2 - 140, screenHeight/2 + 90, 280, 35 };
+            Rectangle selectButton = { screenWidth/2.0f - 140, screenHeight/2.0f + 40, 280, 35 };
+            Rectangle exitButton = { screenWidth/2.0f - 140, screenHeight/2.0f + 90, 280, 35 };
 
             if (isButtonHovered(selectButton))
             {
@@ -60,7 +58,7 @@ string UI::showWelcomeScreen()
 
                 if (filePath != nullptr) {
                     cleanup();
-                    return string(filePath);
+                    return std::string(filePath);
                 }
             }
             else if (isButtonHovered(exitButton)) {
@@ -101,18 +99,18 @@ void UI::drawWelcomeText() {
 
     // Desenha o título
     DrawTextEx(font, title,
-        Vector2{ (screenWidth - titleWidth)/2, screenHeight/2 - 120 },
+        Vector2{ (screenWidth - titleWidth)/2.0f, screenHeight/2.0f - 120 },
         titleSize, titleSpacing, textColor);
 
     // Desenha o subtítulo
     DrawTextEx(font, subtitle,
-        Vector2{ (screenWidth - subtitleWidth)/2, screenHeight/2 - 40 },
+        Vector2{ (screenWidth - subtitleWidth)/2.0f, screenHeight/2.0f - 40 },
         subtitleSize, subtitleSpacing, textColor);
 }
 
 void UI::drawSelectButton()
 {
-    Rectangle button = { screenWidth/2 - 140, screenHeight/2 + 40, 280, 35 };
+    Rectangle button = { screenWidth/2.0f - 140, screenHeight/2.0f + 40, 280, 35 };
     Color currentColor = isButtonHovered(button) ? buttonHoverColor : buttonColor;
 
     DrawRectangleRec(button, currentColor);
@@ -129,7 +127,7 @@ void UI::drawSelectButton()
 }
 
 void UI::drawExitButton() {
-    Rectangle button = { screenWidth/2 - 140, screenHeight/2 + 90, 280, 35 };
+    Rectangle button = { screenWidth/2.0f - 140, screenHeight/2.0f + 90, 280, 35 };
     Color currentColor = isButtonHovered(button) ? buttonHoverColor : buttonColor;
 
     DrawRectangleRec(button, currentColor);

@@ -1,7 +1,6 @@
 #pragma once
 
-#include "../../include/global.h"
-
+#include "src/Mappers/Mapper.h"
 class Mapper_007 : public Mapper
 {
 public:
@@ -18,4 +17,4 @@ public:
 private:
     uint8_t nPRGBankSelect = 0;
     MIRROR mirrorMode = ONESCREEN_LO;
-}; 
+};
