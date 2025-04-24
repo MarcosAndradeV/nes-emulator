@@ -1,9 +1,13 @@
 #include "src/Header_files/UI.h"
 #include "tinyfiledialogs.h"
+#include "include/Config.h"
+#include <raylib.h>
+#include <string>
+
 UI::UI()
 {
     // Inicializa a janela
-    InitWindow(screenWidth, screenHeight, "NES Emulator");
+    InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "NES Emulator");
     SetTargetFPS(60);
 
     // Carrega recursos
@@ -20,61 +24,21 @@ void UI::init() {
     SetExitKey(KEY_NULL); // Desabilita ESC para sair
 }
 
-std::string UI::showWelcomeScreen()
-{
-    while (!WindowShouldClose()) {
-        BeginDrawing();
+// Método separado para exibir apenas o diálogo de seleção de arquivo
+std::string UI::showFileDialog() {
+    const char* filterPatterns[] = { "*.nes" };
+    const char* filePath = tinyfd_openFileDialog(
+        "Selecione um arquivo ROM do NES",
+        "",
+        1,
+        filterPatterns,
+        "Arquivos NES (*.nes)",
+        0
+    );
 
-        // Fundo
-        ClearBackground(backgroundColor);
-        DrawTexture(background, 0, 0, WHITE);
-
-        // Texto de boas-vindas
-        drawWelcomeText();
-
-        // Botões
-        drawSelectButton();
-        drawExitButton();
-
-        EndDrawing();
-
-        // Verifica clique nos botões
-        if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
-            Rectangle selectButton = { screenWidth/2.0f - 140, screenHeight/2.0f + 40, 280, 35 };
-            Rectangle exitButton = { screenWidth/2.0f - 140, screenHeight/2.0f + 90, 280, 35 };
-
-            if (isButtonHovered(selectButton))
-            {
-                // Abre diálogo para selecionar arquivo ROM
-                const char* filterPatterns[] = { "*.nes" };
-                const char* filePath = tinyfd_openFileDialog(
-                    "Selecione um arquivo ROM do NES",
-                    "",
-                    1,
-                    filterPatterns,
-                    "Arquivos NES (*.nes)",
-                    0
-                );
-
-                if (filePath != nullptr) {
-                    cleanup();
-                    return std::string(filePath);
-                }
-            }
-            else if (isButtonHovered(exitButton)) {
-                cleanup();
-                return "";
-            }
-        }
-
-        // Verifica tecla ESC
-        if (IsKeyPressed(KEY_ESCAPE)) {
-            cleanup();
-            return "";
-        }
+    if (filePath != nullptr) {
+        return std::string(filePath);
     }
-
-    cleanup();
     return "";
 }
 
@@ -99,18 +63,18 @@ void UI::drawWelcomeText() {
 
     // Desenha o título
     DrawTextEx(font, title,
-        Vector2{ (screenWidth - titleWidth)/2.0f, screenHeight/2.0f - 120 },
+        Vector2{ (SCREEN_WIDTH - titleWidth)/2.0f, SCREEN_HEIGHT/2.0f - 120 },
         titleSize, titleSpacing, textColor);
 
     // Desenha o subtítulo
     DrawTextEx(font, subtitle,
-        Vector2{ (screenWidth - subtitleWidth)/2.0f, screenHeight/2.0f - 40 },
+        Vector2{ (SCREEN_WIDTH - subtitleWidth)/2.0f, SCREEN_HEIGHT/2.0f - 40 },
         subtitleSize, subtitleSpacing, textColor);
 }
 
 void UI::drawSelectButton()
 {
-    Rectangle button = { screenWidth/2.0f - 140, screenHeight/2.0f + 40, 280, 35 };
+    Rectangle button = { SCREEN_WIDTH/2.0f - 140, SCREEN_HEIGHT/2.0f + 40, 280, 35 };
     Color currentColor = isButtonHovered(button) ? buttonHoverColor : buttonColor;
 
     DrawRectangleRec(button, currentColor);
@@ -127,7 +91,7 @@ void UI::drawSelectButton()
 }
 
 void UI::drawExitButton() {
-    Rectangle button = { screenWidth/2.0f - 140, screenHeight/2.0f + 90, 280, 35 };
+    Rectangle button = { SCREEN_WIDTH/2.0f - 140, SCREEN_HEIGHT/2.0f + 90, 280, 35 };
     Color currentColor = isButtonHovered(button) ? buttonHoverColor : buttonColor;
 
     DrawRectangleRec(button, currentColor);
