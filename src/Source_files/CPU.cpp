@@ -27,6 +27,7 @@ void CPU6502::clock(){
 }
 
 void CPU6502::executeInstruction(uint8_t opcode){
+    uint8_t cycles = 0;
     switch(opcode){
         case 0xA9:
             {A = bus->cpuRead(PC++, false);
@@ -520,6 +521,46 @@ void CPU6502::executeInstruction(uint8_t opcode){
             setFlag(Z, A == 0);
             setFlag(N, A & 0x80);
             break;}
+
+        case 0xDF:
+        {
+            uint16_t addr = bus->cpuRead(PC++, false);
+            addr |= (bus->cpuRead(PC++, false) << 8);
+
+            uint16_t effAddr = addr + X;
+
+            if((addr & 0xFF00) != (effAddr & 0xFF00)){
+                cycles++;
+            }
+
+            uint8_t value = bus->cpuRead(effAddr, false);
+
+            value--;
+            bus->cpuWrite(effAddr, value);
+            
+            uint8_t result = A - value;
+
+            if(A>=value){
+                Status |= C;
+            }else{
+                Status &= ~C;
+            }
+
+            if (A == value) {
+                Status |= Z; 
+            } else {
+                Status &= ~Z; 
+            }
+    
+            if (result & 0x80) {
+                Status |= N;
+            } else {
+                Status &= ~N;
+            }
+
+            cycles += 7;
+            break;
+        }
 
         default:
             {cerr << "Instrução desconhecida: 0x" << std::hex << (int)opcode << "\n";
