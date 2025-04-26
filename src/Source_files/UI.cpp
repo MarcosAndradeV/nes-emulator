@@ -8,7 +8,7 @@ UI::UI()
 {
     // Inicializa a janela
     InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "NES Emulator");
-    SetTargetFPS(60);
+    SetTargetFPS(24);
 
     // Carrega recursos
     font = LoadFontEx("assets/font.ttf", 32, 0, 0);
