@@ -172,7 +172,7 @@ bool Bus::clock()
 	if (cart->GetMapper()->irqState())
 	{
 		cart->GetMapper()->irqClear();
-		cpu.interrupt();
+		cpu.irq();
 	}
 
 	nSystemClockCounter++;
