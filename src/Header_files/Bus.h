@@ -14,7 +14,7 @@ class Bus
 
     public:
     //Dispositivos no barramento
-        CPU6502 cpu;
+        olc6502 cpu;
         PPU ppu;
         APU2A03 apu;
         std::shared_ptr<Cartridge> cart;
