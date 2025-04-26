@@ -37,7 +37,9 @@ public:
 
     // DMA Access
     uint8_t pOAM[256];  // Object Attribute Memory
+    uint8_t sOAM[32];  // Secondary OAM (8 sprites × 4 bytes each)
 
+    bool spriteSize = false;   // 0 = 8x8, 1 = 8x16 sprites
     // NMI
     bool nmi = false;
 

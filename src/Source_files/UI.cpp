@@ -6,6 +6,7 @@
 
 UI::UI()
 {
+    SetConfigFlags(FLAG_WINDOW_RESIZABLE);
     // Inicializa a janela
     InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "NES Emulator");
     SetTargetFPS(24);

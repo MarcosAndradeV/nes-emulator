@@ -34,8 +34,11 @@ void Emulator::run() {
     memset(&gameScreen, 0, sizeof(Image));
     gameScreen.width = 256;
     gameScreen.height = 240;
-    gameScreen.format = PIXELFORMAT_COMPRESSED_DXT1_RGBA;
+    gameScreen.format = PIXELFORMAT_UNCOMPRESSED_R8G8B8A8;
     gameScreen.mipmaps = 1;
+    gameScreen.data = (void*)bus.ppu.getFrameBuffer();
+    Texture2D texture = {};
+    memset(&texture, 0, sizeof(Texture2D));
 
     // Loop principal do emulador
     while (!WindowShouldClose()) {
@@ -57,40 +60,40 @@ void Emulator::run() {
 
                 if (ui->isButtonHovered(selectButton)) {
                     romPath = ui->showFileDialog();
-                    if (!romPath.empty()) {
-                        if (loadGame(romPath)) {
-                            gameLoaded = true;
-                        } else {
-                            // Mensagem de erro
-                            DrawText("Erro ao carregar o jogo. Tente novamente.", 10, 70, 20, RED);
+                    if (!romPath.empty() && loadGame(romPath)) {
+                        if (texture.id > 0) {
+                            UnloadTexture(texture); // limpa anterior, se existir
                         }
+                        gameScreen.data = (void*)bus.ppu.getFrameBuffer();
+                        texture = LoadTextureFromImage(gameScreen);
+                        gameLoaded = true;
+                    } else {
+                        DrawText("Erro ao carregar o jogo. Tente novamente.", 10, 70, 20, RED);
                     }
                 } else if (ui->isButtonHovered(exitButton)) {
                     break; // Sair do loop
                 }
             }
 
-            // Verificar tecla ESC
             if (IsKeyPressed(KEY_ESCAPE)) {
-                break; // Sair do loop
+                gameLoaded = false;
             }
-        }
-        else {
+
+        } else {
             // Modo de jogo - Executar emulador
             ClearBackground(BLACK);
 
-            // Executar um ciclo do sistema
-            bus.clock();
+            // Executar um quadro do emulador
+            for (int i = 0; i < 29780; i++) {
+                bus.clock();
+            }
 
-            // Renderizar a tela do NES
+            // Atualizar e desenhar frame NES
             auto frameBuffer = bus.ppu.getFrameBuffer();
-            gameScreen.data = (void*)frameBuffer;
-            Texture2D texture = LoadTextureFromImage(gameScreen);
-
-            // Centralize a textura do jogo na tela
-            DrawTexture(texture, (SCREEN_WIDTH - 256) / 2, (SCREEN_HEIGHT - 240) / 2, WHITE);
-
-            UnloadTexture(texture);
+            if (texture.id > 0) {
+                UpdateTexture(texture, frameBuffer);
+                DrawTexture(texture, (SCREEN_WIDTH - 256) / 2, (SCREEN_HEIGHT - 240) / 2, WHITE);
+            }
 
             // Verificar se pressionar ESC para voltar ao menu
             if (IsKeyPressed(KEY_ESCAPE)) {
@@ -100,6 +103,7 @@ void Emulator::run() {
 
         EndDrawing();
     }
+    UnloadTexture(texture);
 }
 
 /// Carrega um jogo NES
