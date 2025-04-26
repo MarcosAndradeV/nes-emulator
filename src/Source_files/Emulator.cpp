@@ -4,6 +4,7 @@
 #include "src/Header_files/Cartridge.h"
 #include "src/Header_files/UI.h"
 #include "include/Config.h"
+#include <cstdlib>
 #include <cstring>
 #include <iostream>
 #include <string>
@@ -119,9 +120,6 @@ bool Emulator::loadGame(const std::string& path) {
 
     // Insere o cartucho no barramento
     bus.insertCartridge(cart);
-
-    // Reseta o sistema
-    bus.reset();
 
     std::cout << "Jogo carregado com sucesso: " << path << std::endl;
     return true;
