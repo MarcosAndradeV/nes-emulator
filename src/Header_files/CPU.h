@@ -1,8 +1,9 @@
 #pragma once
 
-#include <vector>
-#include <string>
+#include <cstdint>
 #include <map>
+#include <string>
+#include <vector>
 
 #ifdef LOGMODE
 #include <stdio.h>
@@ -108,4 +109,3 @@ private:
     FILE* logfile = nullptr;
 #endif
 };
-
