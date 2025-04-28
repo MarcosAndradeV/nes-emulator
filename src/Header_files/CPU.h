@@ -31,6 +31,9 @@ public:
     void clock();  // Perform one clock cycle
     bool complete();
 
+    uint16_t addr_abs    = 0x0000; // Absolute address
+
+    
     // Debugging
     std::map<uint16_t, std::string> disassemble(uint16_t nStart, uint16_t nStop);
 
@@ -81,7 +84,6 @@ private:
     // Variables
     uint8_t  fetched     = 0x00;  // Working input value to the ALU
     uint16_t temp        = 0x0000; // Temporary data
-    uint16_t addr_abs    = 0x0000; // Absolute address
     uint16_t addr_rel    = 0x00;   // Relative address
     uint8_t  opcode      = 0x00;   // Current opcode
     uint8_t  cycles      = 0;      // Remaining cycles
