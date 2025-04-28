@@ -37,8 +37,8 @@ class Bus
 
 
     public: // Main Bus Read & Write
-        void    cpuWrite(uint16_t addr, uint8_t data);
-        uint8_t cpuRead(uint16_t addr, bool bReadOnly = false);
+        virtual void    cpuWrite(uint16_t addr, uint8_t data);
+        virtual uint8_t cpuRead(uint16_t addr, bool bReadOnly = false);
 
     private:
        //Contador de clock do sistema

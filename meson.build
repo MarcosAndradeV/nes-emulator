@@ -55,7 +55,8 @@ endif
 
 inc_dir = include_directories('include')
 
-sources = files(
+# Arquivos principais do emulador
+emulator_sources = files(
   'src/Main.cpp',
   'src/Mappers/Mapper.cpp',
   'src/Mappers/Mapper000.cpp',
@@ -64,6 +65,8 @@ sources = files(
   'src/Mappers/Mapper003.cpp',
   'src/Mappers/Mapper004.cpp',
   'src/Mappers/Mapper066.cpp',
+  'src/Mappers/Mapper005.cpp',
+  'src/Mappers/Mapper007.cpp',
   'src/Source_files/APU.cpp',
   'src/Source_files/Bus.cpp',
   'src/Source_files/CPU.cpp',
@@ -73,18 +76,44 @@ sources = files(
   'src/Source_files/UI.cpp',
 )
 
+# Executável principal do emulador
 executable(
   'emulator',
-  sources: sources,
+  emulator_sources,
   include_directories: inc_dir,
   dependencies: dependencies,
   install: true,
   install_dir: 'build',
 )
 
-# test_sources = files(
-#   './tests/TestPpu.cpp',
-#   './tests/TestCpu.cpp'
-# )
+# Arquivos de teste
+test_sources = files(
+  'tests/CPUTest.cpp',
+  'src/Mappers/Mapper.cpp',
+  'src/Mappers/Mapper000.cpp',
+  'src/Mappers/Mapper001.cpp',
+  'src/Mappers/Mapper002.cpp',
+  'src/Mappers/Mapper003.cpp',
+  'src/Mappers/Mapper004.cpp',
+  'src/Mappers/Mapper066.cpp',
+  'src/Mappers/Mapper005.cpp',
+  'src/Mappers/Mapper007.cpp',
+  'src/Source_files/APU.cpp',
+  'src/Source_files/Bus.cpp',
+  'src/Source_files/CPU.cpp',
+  'src/Source_files/Cartridge.cpp',
+  'src/Source_files/Emulator.cpp',
+  'src/Source_files/PPU.cpp',
+  'src/Source_files/UI.cpp',
+)
 
-test_dir = 'tests'
+# Executável de teste
+TestCPU = executable(
+  'TestCPU',
+  test_sources,
+  include_directories: inc_dir,
+  dependencies: dependencies,
+)
+
+# Registrar o teste
+test('cpu_test', TestCPU)
