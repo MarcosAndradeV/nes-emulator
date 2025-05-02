@@ -1,5 +1,7 @@
 # NES-emulator
 
+**Development Paused**
+
 ## Build
 
 Download `meson` and `ninja`.
