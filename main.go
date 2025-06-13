@@ -3,10 +3,9 @@ package main
 import (
 	"fmt"
 	"log"
-	"nes-emulator/memory"
 	"os"
-
-	"github.com/retroenv/retrogolib/arch/cpu/m6502"
+	"nes-emulator/ppu"
+	
 )
 
 func LoadROM(path string) ([]byte, error) {
@@ -40,16 +39,5 @@ func main() {
 		log.Fatal(err)
 	}
 
-	mem := &memory.NESMemory{
-		ROM: rom,
-	}
-
-	cpu := m6502.New(m6502.NewMemory(mem), m6502.WithTracing())
-
-	for {
-		if err := cpu.Step(); err != nil {
-			fmt.Printf("err: %v\n", err)
-			return
-		}
-	}
+	ppu.VisualTestCPU(rom)
 }
