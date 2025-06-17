@@ -1,10 +1,9 @@
-package ppu
+package ui
 
 import (
 	"fmt"
-	"nes-emulator/interface/game"
 	"nes-emulator/interface/menu"
-
+	"nes-emulator/rom"
 	"github.com/veandco/go-sdl2/sdl"
 )
 
@@ -30,7 +29,7 @@ func New() (*Interface, error) {
 	}
 
 	// Carrega lista de jogos
-	loader := game.NewLoader()
+	loader := rom.NewLoader()
 	games, _ := loader.LoadGameList()
 
 	gameMenu := menu.NewGameMenu(renderer, window, games)

@@ -1,4 +1,4 @@
-package game
+package rom
 
 import (
 	"fmt"
@@ -9,7 +9,7 @@ import (
 
 const (
 	// GamesDirectory diretório padrão dos jogos
-	GamesDirectory = "Jogos"
+	GamesDirectory = "roms"
 	// ROMExtension extensão dos arquivos ROM
 	ROMExtension = ".nes"
 )
