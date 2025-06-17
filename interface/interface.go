@@ -8,13 +8,11 @@ import (
 	"github.com/veandco/go-sdl2/sdl"
 )
 
-// PPU representa a Picture Processing Unit do NES
-type PPU struct {
+type Interface struct {
 	menu *menu.GameMenu
 }
 
-// New cria uma nova instância da PPU
-func New() (*PPU, error) {
+func New() (*Interface, error) {
 	// Inicializa SDL
 	if err := sdl.Init(sdl.INIT_VIDEO); err != nil {
 		return nil, fmt.Errorf("erro ao inicializar SDL: %w", err)
@@ -36,18 +34,18 @@ func New() (*PPU, error) {
 	games, _ := loader.LoadGameList()
 
 	gameMenu := menu.NewGameMenu(renderer, window, games)
-	return &PPU{
+	return &Interface{
 		menu: gameMenu,
 	}, nil
 }
 
-// Run inicia a execução da PPU
-func (p *PPU) Run() error {
+// Run inicia a execução da interface do emulador
+func (p *Interface) Run() error {
 	return p.menu.Run()
 }
 
-// Cleanup limpa os recursos da PPU
-func (p *PPU) Cleanup() {
+// Cleanup limpa os recursos da Interface
+func (p *Interface) Cleanup() {
 	if p.menu != nil {
 		p.menu.Cleanup()
 	}
@@ -57,7 +55,7 @@ func (p *PPU) Cleanup() {
 func RunEmulator() error {
 	ppu, err := New()
 	if err != nil {
-		return fmt.Errorf("erro ao inicializar PPU: %w", err)
+		return fmt.Errorf("erro ao inicializar Interface: %w", err)
 	}
 	defer ppu.Cleanup()
 
