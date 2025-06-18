@@ -23,11 +23,11 @@ func NewMenuRenderer(renderer *sdl.Renderer, menu *GameMenu) *MenuRenderer {
 // Render renderiza a tela atual baseada no estado
 func (mr *MenuRenderer) Render() {
 	switch mr.menu.state {
-	case int(game.StateMenu):
+	case game.StateMenu:
 		mr.renderMenu()
-	case int(game.StatePlaying):
+	case game.StatePlaying:
 		mr.renderGame()
-	case int(game.StatePaused):
+	case game.StatePaused:
 		mr.renderPaused()
 	}
 }

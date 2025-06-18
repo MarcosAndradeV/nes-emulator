@@ -2,7 +2,9 @@ package menu
 
 import (
 	"nes-emulator/interface/display"
+	"nes-emulator/interface/game"
 	"nes-emulator/rom"
+
 	"github.com/veandco/go-sdl2/sdl"
 )
 
@@ -10,7 +12,7 @@ import (
 type GameMenu struct {
 	games      []rom.GameInfo
 	selectedIdx int
-	state      int // ou use um tipo de estado apropriado
+	state      game.State // ou use um tipo de estado apropriado
 	renderer   *sdl.Renderer
 	window     *sdl.Window
 	input      *InputHandler
@@ -22,7 +24,7 @@ func NewGameMenu(renderer *sdl.Renderer, window *sdl.Window, games []rom.GameInf
 	menu := &GameMenu{
 		games:      games,
 		selectedIdx: 0,
-		state:      0, // ajuste conforme seu enum de estado
+		state:      game.StateMenu, // ajuste conforme seu enum de estado
 		renderer:   renderer,
 		window:     window,
 	}
