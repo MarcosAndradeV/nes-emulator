@@ -26,11 +26,11 @@ func (tr *TextRenderer) DrawChar(char rune, x, y int32, color sdl.Color, scale i
 
 	tr.renderer.SetDrawColor(color.R, color.G, color.B, color.A)
 
-	for row := 0; row < 8; row++ {
-		for col := 0; col < 8; col++ {
+	for row := range 8 {
+		for col := range 8 {
 			if charData[row]&(1<<(7-col)) != 0 {
-				for sy := int32(0); sy < scale; sy++ {
-					for sx := int32(0); sx < scale; sx++ {
+				for sy := range scale {
+					for sx := range scale {
 						pixelX := x + int32(col)*scale + sx
 						pixelY := y + int32(row)*scale + sy
 						tr.renderer.DrawPoint(pixelX, pixelY)
