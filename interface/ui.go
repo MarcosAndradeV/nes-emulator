@@ -12,7 +12,6 @@ type Interface struct {
 }
 
 func New() (*Interface, error) {
-	// Inicializa SDL
 	if err := sdl.Init(sdl.INIT_VIDEO); err != nil {
 		return nil, fmt.Errorf("erro ao inicializar SDL: %w", err)
 	}
@@ -28,35 +27,39 @@ func New() (*Interface, error) {
 		return nil, fmt.Errorf("erro ao criar renderer: %w", err)
 	}
 
-	// Carrega lista de jogos
 	loader := rom.NewLoader()
-	games, _ := loader.LoadGameList()
+	games, err := loader.LoadGameList()
+	if err != nil {
+		renderer.Destroy()
+		window.Destroy()
+		sdl.Quit()
+		return nil, fmt.Errorf("erro ao carregar lista de jogos: %w", err)
+	}
 
 	gameMenu := menu.NewGameMenu(renderer, window, games)
+
 	return &Interface{
 		menu: gameMenu,
 	}, nil
 }
 
-// Run inicia a execução da interface do emulador
-func (p *Interface) Run() error {
-	return p.menu.Run()
+func (ui *Interface) Run() error {
+	return ui.menu.Run()
 }
 
-// Cleanup limpa os recursos da Interface
-func (p *Interface) Cleanup() {
-	if p.menu != nil {
-		p.menu.Cleanup()
+func (ui *Interface) Cleanup() {
+	if ui.menu != nil {
+		ui.menu.Cleanup()
 	}
+	sdl.Quit()
 }
 
-// RunEmulator é a função principal para iniciar o emulador
 func RunEmulator() error {
-	ppu, err := New()
+	ui, err := New()
 	if err != nil {
-		return fmt.Errorf("erro ao inicializar Interface: %w", err)
+		return fmt.Errorf("erro ao inicializar interface: %w", err)
 	}
-	defer ppu.Cleanup()
+	defer ui.Cleanup()
 
-	return ppu.Run()
+	return ui.Run()
 }

@@ -1,6 +1,7 @@
 package menu
 
 import (
+	"nes-emulator/emulador"
 	"nes-emulator/interface/display"
 	"nes-emulator/interface/game"
 	"nes-emulator/rom"
@@ -8,99 +9,131 @@ import (
 	"github.com/veandco/go-sdl2/sdl"
 )
 
-// GameMenu representa o menu principal de seleção de jogos
 type GameMenu struct {
-	games      []rom.GameInfo
+	games       []rom.GameInfo
 	selectedIdx int
-	state      game.State // ou use um tipo de estado apropriado
-	renderer   *sdl.Renderer
-	window     *sdl.Window
-	input      *InputHandler
-	render     *MenuRenderer
+	state       game.State // 0=Menu, 1=Playing, 2=Paused
+	renderer    *sdl.Renderer
+	window      *sdl.Window
+	input       *InputHandler
+	render      *MenuRenderer
+	emulator    *emulador.Emulator
 }
 
-// NewGameMenu cria um novo menu de jogos
-func NewGameMenu(renderer *sdl.Renderer, window *sdl.Window, games []rom.GameInfo) *GameMenu {
-	menu := &GameMenu{
-		games:      games,
-		selectedIdx: 0,
-		state:      game.StateMenu, // ajuste conforme seu enum de estado
-		renderer:   renderer,
-		window:     window,
-	}
-	menu.input = NewInputHandler(menu)
-	menu.render = NewMenuRenderer(renderer, menu)
-	return menu
-}
-
-// Run executa o loop principal do menu
-func (m *GameMenu) Run() error {
-	defaultFPS := display.TargetFPS
-	running := true
-	for running {
-		running = m.input.HandleInput()
-		m.render.Render()
-		sdl.Delay(uint32(1000 / defaultFPS))
-	}
-	return nil
-}
-
-// Cleanup libera recursos do menu
-func (m *GameMenu) Cleanup() {
-	if m.window != nil {
-		m.window.Destroy()
-	}
-}
-
-// moveSelectionUp move a seleção para cima
 func (m *GameMenu) moveSelectionUp() {
 	if m.selectedIdx > 0 {
 		m.selectedIdx--
 	}
 }
 
-// moveSelectionDown move a seleção para baixo
 func (m *GameMenu) moveSelectionDown() {
 	if m.selectedIdx < len(m.games)-1 {
 		m.selectedIdx++
 	}
 }
 
-// selectCurrentGame inicia o jogo selecionado
+func NewGameMenu(renderer *sdl.Renderer, window *sdl.Window, games []rom.GameInfo) *GameMenu {
+	m := &GameMenu{
+		games:       games,
+		selectedIdx: 0,
+		state:       game.StateMenu,
+		renderer:    renderer,
+		window:      window,
+	}
+	m.input = NewInputHandler(m)
+	m.render = NewMenuRenderer(renderer, m)
+	return m
+}
+
 func (m *GameMenu) selectCurrentGame() {
-	if len(m.games) > 0 {
-		m.state = 1 // StatePlaying
+	if len(m.games) == 0 {
+		return
+	}
+	if m.emulator == nil {
+		m.emulator = emulador.NewEmulator()
+	}
+	game := m.GetSelectedGame()
+	err := m.emulator.LoadROM(game.FullPath)
+	if err != nil {
+		// Trate erro aqui
+		return
+	}
+	m.emulator.Run()
+	m.state = 1 // Playing
+}
+
+func (m *GameMenu) refreshGameList() {
+	// Aqui você pode implementar recarregar a lista de jogos do disco
+	// Exemplo:
+	// loader := rom.NewLoader()
+	// games, err := loader.LoadGameList()
+	// if err == nil {
+	//     m.games = games
+	//     m.selectedIdx = 0
+	// }
+}
+
+func (m *GameMenu) returnToMenu() {
+	m.state = 0 // volta para o menu
+	if m.emulator != nil {
+		m.emulator.Stop()
 	}
 }
 
-// returnToMenu retorna ao menu principal
-func (m *GameMenu) returnToMenu() {
-	m.state = 0 // StateMenu
-}
-
-// pauseGame pausa o jogo
 func (m *GameMenu) pauseGame() {
-	m.state = 2 // StatePaused
+	if m.state == 1 { // se estiver jogando
+		m.state = 2 // pausa
+		if m.emulator != nil {
+			m.emulator.Pause()
+		}
+	}
 }
 
-// resumeGame retoma o jogo pausado
 func (m *GameMenu) resumeGame() {
-	m.state = 1 // StatePlaying
+	if m.state == 2 { // se estiver pausado
+		m.state = 1 // volta a jogar
+		if m.emulator != nil {
+			m.emulator.Run()
+		}
+	}
 }
 
-// refreshGameList pode ser implementado para recarregar a lista de jogos
-func (m *GameMenu) refreshGameList() {
-	// Exemplo: recarregar lista de jogos do disco
-	// loader := rom.NewLoader()
-	// games, _ := loader.LoadGameList()
-	// m.games = games
-	// m.selectedIdx = 0
+func (m *GameMenu) Run() error {
+	fps := display.TargetFPS
+	running := true
+	for running {
+		running = m.input.HandleInput()
+
+		switch m.state {
+		case 0: // Menu
+			m.render.Render()
+		case 1: // Playing
+			if m.emulator != nil {
+				m.emulator.Step()
+				// Renderize o frame do jogo se quiser aqui
+			}
+		case 2: // Paused
+			// Renderizar tela de pausa, se necessário
+		}
+
+		sdl.Delay(uint32(1000 / fps))
+	}
+	return nil
 }
 
-// GetSelectedGame retorna o GameInfo do jogo selecionado
 func (m *GameMenu) GetSelectedGame() *rom.GameInfo {
 	if len(m.games) == 0 {
 		return nil
 	}
 	return &m.games[m.selectedIdx]
 }
+
+func (m *GameMenu) Cleanup() {
+	if m.renderer != nil {
+		m.renderer.Destroy()
+	}
+	if m.window != nil {
+		m.window.Destroy()
+	}
+}
+
