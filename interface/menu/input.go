@@ -26,7 +26,7 @@ func (ih *InputHandler) HandleInput() bool {
 			return false
 		case *sdl.KeyboardEvent:
 			if e.Type == sdl.KEYDOWN {
-				switch ih.menu.state {
+				switch game.State(ih.menu.state) {
 				case game.StateMenu:
 					return ih.handleMenuInput(e.Keysym.Sym)
 				case game.StatePlaying:

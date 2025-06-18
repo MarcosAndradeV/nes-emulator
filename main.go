@@ -9,7 +9,7 @@ func main() {
 	fmt.Println("Iniciando NES Emulator...")
 	
 	// Inicia o emulador com o menu
-	ppu.RunEmulator()
+	ui.RunEmulator()
 	
 	fmt.Println("Emulador finalizado.")
 }
