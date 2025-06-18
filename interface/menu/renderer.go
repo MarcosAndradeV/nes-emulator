@@ -1,9 +1,10 @@
 package menu
 
 import (
-	"github.com/veandco/go-sdl2/sdl"
 	"nes-emulator/interface/display"
 	"nes-emulator/interface/game"
+
+	"github.com/veandco/go-sdl2/sdl"
 )
 
 // MenuRenderer responsável pela renderização das telas
@@ -23,11 +24,11 @@ func NewMenuRenderer(renderer *sdl.Renderer, menu *GameMenu) *MenuRenderer {
 // Render renderiza a tela atual baseada no estado
 func (mr *MenuRenderer) Render() {
 	switch mr.menu.state {
-	case game.StateMenu:
+	case game.StateMenu: // Menu
 		mr.renderMenu()
-	case game.StatePlaying:
+	case game.StatePlaying: // Playing
 		mr.renderGame()
-	case game.StatePaused:
+	case game.StatePaused: // Paused
 		mr.renderPaused()
 	}
 }
@@ -109,7 +110,7 @@ func (mr *MenuRenderer) renderInstructions() {
 		{"ESC PARA SAIR", display.InstructionsY + 90},
 	}
 
-		for _, inst := range instructions {
-			mr.textRenderer.DrawText(inst.text, 200, inst.y, display.ColorGray)
-		}
+	for _, inst := range instructions {
+		mr.textRenderer.DrawText(inst.text, 200, inst.y, display.ColorGray)
 	}
+}
