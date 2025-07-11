@@ -17,7 +17,6 @@ type GameMenu struct {
 	window      *sdl.Window
 	input       *InputHandler
 	render      *MenuRenderer
-	emulator    *emulador.Emulator
 }
 
 func (m *GameMenu) moveSelectionUp() {
@@ -49,17 +48,9 @@ func (m *GameMenu) selectCurrentGame() {
 	if len(m.games) == 0 {
 		return
 	}
-	if m.emulator == nil {
-		m.emulator = emulador.NewEmulator()
-	}
 	game := m.GetSelectedGame()
-	err := m.emulator.LoadROM(game.FullPath)
-	if err != nil {
-		// Trate erro aqui
-		return
-	}
-	m.emulator.Run()
-	m.state = 1 // Playing
+	emulador.RunGame(game.FullPath)
+	m.state = 1 // Playing (pode ajustar lógica de estado conforme necessário)
 }
 
 func (m *GameMenu) refreshGameList() {
@@ -75,26 +66,17 @@ func (m *GameMenu) refreshGameList() {
 
 func (m *GameMenu) returnToMenu() {
 	m.state = 0 // volta para o menu
-	if m.emulator != nil {
-		m.emulator.Stop()
-	}
 }
 
 func (m *GameMenu) pauseGame() {
 	if m.state == 1 { // se estiver jogando
 		m.state = 2 // pausa
-		if m.emulator != nil {
-			m.emulator.Pause()
-		}
 	}
 }
 
 func (m *GameMenu) resumeGame() {
 	if m.state == 2 { // se estiver pausado
 		m.state = 1 // volta a jogar
-		if m.emulator != nil {
-			m.emulator.Run()
-		}
 	}
 }
 
@@ -108,10 +90,7 @@ func (m *GameMenu) Run() error {
 		case 0: // Menu
 			m.render.Render()
 		case 1: // Playing
-			if m.emulator != nil {
-				m.emulator.Step()
-				// Renderize o frame do jogo se quiser aqui
-			}
+			// O ciclo do NES está no core, não precisa chamar Step aqui
 		case 2: // Paused
 			// Renderizar tela de pausa, se necessário
 		}
