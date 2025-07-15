@@ -2,9 +2,9 @@ package rom
 
 import (
 	"fmt"
-	"io/ioutil"
 	"path/filepath"
 	"strings"
+	"os"
 )
 
 const (
@@ -42,7 +42,7 @@ func NewLoaderWithDir(dir string) *Loader {
 
 // LoadGameList carrega a lista de jogos disponíveis
 func (l *Loader) LoadGameList() ([]GameInfo, error) {
-	files, err := ioutil.ReadDir(l.gamesDir)
+	files, err := os.ReadDir(l.gamesDir)
 	if err != nil {
 		return nil, fmt.Errorf("erro ao ler diretório %s: %w", l.gamesDir, err)
 	}
@@ -81,7 +81,7 @@ func (l *Loader) formatGameName(fileName string) string {
 func (l *Loader) LoadROM(gamePath string) error {
 	// TODO: Implementar carregamento real da ROM
 	// Por enquanto, apenas verifica se o arquivo existe
-	if _, err := ioutil.ReadFile(gamePath); err != nil {
+	if _, err := os.ReadFile(gamePath); err != nil {
 		return fmt.Errorf("erro ao carregar ROM %s: %w", gamePath, err)
 	}
 	return nil
