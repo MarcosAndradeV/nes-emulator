@@ -48,15 +48,12 @@ func (mr *MenuRenderer) renderPaused() {
 	renderer.Present()
 }
 
-// renderGame renderiza a tela do jogo (placeholder)
+// renderGame renderiza a tela do jogo
 func (mr *MenuRenderer) renderGame() {
-	// Implemente a renderização do jogo aqui ou deixe como placeholder
-	// Exemplo: limpar tela e mostrar mensagem
-	renderer := mr.menu.renderer
-	renderer.SetDrawColor(display.ColorBlack.R, display.ColorBlack.G, display.ColorBlack.B, display.ColorBlack.A)
-	renderer.Clear()
-	mr.textRenderer.DrawText("Jogo em execução...", display.TitleX, display.TitleY, display.ColorWhite)
-	renderer.Present()
+	// A PPU já renderiza o frame do jogo diretamente na tela
+	// Não precisamos fazer nada aqui, pois o core.RunFrame() já chama ppu.Render()
+	// Apenas apresentar o frame renderizado
+	mr.menu.renderer.Present()
 }
 
 // renderMenu renderiza o menu principal
