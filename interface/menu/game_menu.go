@@ -1,6 +1,7 @@
 package menu
 
 import (
+	"fmt"
 	"nes-emulator/emulador"
 	"nes-emulator/interface/display"
 	"nes-emulator/interface/game"
@@ -17,6 +18,7 @@ type GameMenu struct {
 	window      *sdl.Window
 	input       *InputHandler
 	render      *MenuRenderer
+	core        *emulador.Core
 }
 
 func (m *GameMenu) moveSelectionUp() {
@@ -49,8 +51,14 @@ func (m *GameMenu) selectCurrentGame() {
 		return
 	}
 	game := m.GetSelectedGame()
-	emulador.RunGame(game.FullPath)
-	m.state = 1 // Playing (pode ajustar lógica de estado conforme necessário)
+	fmt.Printf("[MENU] Iniciando jogo: %s (%s)\n", game.Name, game.FullPath)
+	core, err := emulador.NewCore(game.FullPath, m.renderer)
+	if err != nil {
+		fmt.Printf("Erro ao criar core: %v\n", err)
+		return
+	}
+	m.core = core
+	m.state = 1 // Playing
 }
 
 func (m *GameMenu) refreshGameList() {
@@ -65,6 +73,10 @@ func (m *GameMenu) refreshGameList() {
 }
 
 func (m *GameMenu) returnToMenu() {
+	if m.core != nil {
+		m.core.Cleanup()
+		m.core = nil
+	}
 	m.state = 0 // volta para o menu
 }
 
@@ -90,9 +102,14 @@ func (m *GameMenu) Run() error {
 		case 0: // Menu
 			m.render.Render()
 		case 1: // Playing
-			// O ciclo do NES está no core, não precisa chamar Step aqui
+			if m.core != nil {
+				m.core.RunFrame()
+				// A PPU já renderiza, só precisamos apresentar
+				m.renderer.Present()
+			}
 		case 2: // Paused
-			// Renderizar tela de pausa, se necessário
+			// Renderizar tela de pausa
+			m.render.Render()
 		}
 
 		sdl.Delay(uint32(1000 / fps))
